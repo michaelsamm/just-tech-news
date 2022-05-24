@@ -3,7 +3,11 @@ const sequelize = require('../config/connection');
 const bcrypt = require('bcrypt');
 
 // create our User model
-class User extends Model {}
+class User extends Model {
+    checkPassword(loginPw) {
+        return bcrypt.compareSync(loginPw, this.password);
+    }
+}
 
 // define table columns and configuration
 User.init(
@@ -55,7 +59,7 @@ User.init(
         timestamps: false,
         // don't pluralize name of database table
         freezeTableName: true,
-        // user underscores instead of camel-casing
+        // use underscores instead of camel-casing
         underscored: true,
         // make it so our model name stays lowercase in the database
         modelName: 'user'
